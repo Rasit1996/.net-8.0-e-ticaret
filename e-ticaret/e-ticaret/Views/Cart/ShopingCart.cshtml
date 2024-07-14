@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewData["Title"] = "ShopingCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["section"] = "class=header-v4";
+}
+@using e_ticaret.Models
+@using System.Security.Claims
+@model List<CartProductsViewModel>
+@{
+	double CartTotal = 0;
+}
+<form class="bg0 p-t-75 p-b-85">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+				<div class="m-l-25 m-r--38 m-lr-0-xl">
+					<div class="wrap-table-shopping-cart">
+						<table class="table-shopping-cart">
+							<tr class="table_head">
+								<th class="column-1">Ürün</th>
+								<th class="column-2"></th>
+								<th class="column-3">Fiyatı</th>
+								<th class="columb-3">Özellikler</th>
+								<th class="column-4">Adet</th>
+								<th class="column-5">Toplam</th>
+							</tr>
+							@foreach (var item in Model)
+							{
+								double total = item.Number * item.Price;
+								int sayac = 0;
+								<tr class="table_row">
+									<td class="column-1">
+										<div class="how-itemcart1">
+											<img src="@item.ImageUrl" alt="IMG">
+										</div>
+									</td>
+									<td class="column-2">@item.Name</td>
+									 <td class="column-3">₺ @item.Price  </td>
+
+									<td class="column-3">
+										@foreach (var name in item.FeaturesName)
+										{
+											sayac++;
+											if (sayac < item.FeaturesName.Count())
+											{
+												<span>@name/ </span>
+											}
+											else
+											{
+												<span>@name </span>
+											}
+
+											
+
+																		}
+									</td> 
+								
+									<td class="column-4">
+										<div class="wrap-num-product flex-w m-l-auto m-r-0">
+											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" data-id="@item.ID">
+												<i class="fs-16 zmdi zmdi-minus"></i>
+											</div>
+
+											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="@item.Number">
+
+											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" data-id="@item.ID">
+												<i class="fs-16 zmdi zmdi-plus"></i>
+											</div>
+										</div>
+									</td>
+									<td class="column-5">₺ @total</td>
+								</tr>
+								CartTotal += total;
+							}
+							
+
+							
+						</table>
+					</div>
+
+					<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+						
+
+						
+						<a class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10"
+						href="/Home/">Alışverişe Devam Et</a>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+				<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+					<h4 class="mtext-109 cl2 p-b-30">
+						Sepet Toplamı
+					</h4>
+
+					<div class="flex-w flex-t bor12 p-b-13">
+						<div class="size-208">
+							<span class="stext-110 cl2">
+								Fiyat:
+							</span>
+						</div>
+
+						<div class="size-209">
+							<span class="mtext-110 cl2">
+								₺@CartTotal
+							</span>
+						</div>
+					</div>
+
+					<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+						<div class="size-208 w-full-ssm">
+							<span class="stext-110 cl2">
+								Kargo fiyatı: ₺50
+								@{
+									CartTotal += 50;
+								}
+							</span>
+						</div>
+
+						
+					</div>
+
+					<div class="flex-w flex-t p-t-27 p-b-33">
+						<div class="size-208">
+							<span class="mtext-101 cl2">
+								Toplam:
+							</span>
+						</div>
+
+						<div class="size-209 p-t-1">
+							<span class="mtext-110 cl2">
+								₺@CartTotal
+							</span>
+						</div>
+					</div>
+					@if (User.Identity.IsAuthenticated)
+					{
+						string role = User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Role).Value;
+						if (role != "Admin")
+						{
+							<a id="ShoppingOk" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+								Alışverişi Tamamla
+							</a>
+						}
+						else
+						{
+							<a href="#" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+								Alışverişi Tamamla
+							</a>
+						}
+					}
+					else
+					{
+						<a id="ok" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+							Alışverişi Tamamla
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section script{
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		$("#ShoppingOk").click(function () {
+
+			$.ajax({
+				type: "post",
+				url: "/Pay/Index",
+				success: function () {
+					Swal.fire({
+						title: "Tebrikler!",
+						text: "Siparişiniz Başarılı bir şekilde alındı!",
+						icon: "success",
+						confirmButtonText: "Tamam",
+						timer: 2500
+					});
+				},
+				error: function () {
+					Swal.fire({
+						icon: "error",
+						title: "Hay aksi...",
+						text: "Bir şeyler yanlış gitti!",
+						confirmButtonText: "Tamam"
+					});
+				}
+			});
+
+		});
+
+		$(".btn-num-product-up").click(function (event) {
+			
+			var id = $(this).data("id");
+			
+			$.ajax({
+				type: "post",
+				url: "/Cart/ShoppingAdd/" + id,
+				success: function () { window.location.reload(); },
+				error: function () {
+					alert("hata");
+				}
+			});
+		});
+		
+		$(".btn-num-product-down").click(function () {
+			var id = $(this).data("id");
+
+			$.ajax({
+				type: "post",
+				url: "/Cart/ShoppingRemove/" + id,
+				success: function () { window.location.reload(); },
+				error: function () {
+					alert("hata");
+				}
+			});
+		});
+	</script>
+
+}
+

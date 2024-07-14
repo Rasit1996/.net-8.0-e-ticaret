@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "update";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+
+@using e_ticaret.Models
+@using EntityLayer.Entity
+@model ProductViewModel
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ürün Güncelle</h4>
+
+            <form class="forms-sample" action="/Admin/Product/update" method="post" >
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" value="@Model.Name" class="form-control" placeholder="Kategori adı">
+
+                        @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Açıklama</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="Description" value="@Model.Description" class="form-control" id="exampleInputEmail2" placeholder="Açıklama">
+                    </div>
+
+                </div>
+                
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Stok</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="Stock" value="@Model.Stock" class="form-control" id="exampleInputEmail2" placeholder="Stok">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Fiyat</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="Price" value="@Model.Price" class="form-control" id="exampleInputEmail2" placeholder="Fiyat">
+                        @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">İndirim</label>
+                    <div class="col-sm-9"> 
+                        <input type="number" name="Discount" value="@Model.Discount" class="form-control" id="exampleInputEmail2" placeholder="İndirim">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Kategori</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="CategoryID">
+                            <option value="@Model.CategoryID">@ViewBag.catName</option>
+                            @foreach (category item in ViewBag.cats)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+
+                            }
+
+                        </select>
+                        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                <a class="btn btn-light" href="/Admin/Product/Index">İptal</a>
+            </form>
+        </div>
+    </div>
+</div>
+

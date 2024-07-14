@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "add";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@using EntityLayer.Entity
+@model ProductViewModel
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ürün Ekle</h4>
+
+            <form class="forms-sample" action="/Admin/Product/add" method="post" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control" placeholder="Ürün adı">
+                        
+                        @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                    </div>
+               
+
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Açıklama</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="Description" class="form-control" id="exampleInputEmail2" placeholder="Açıklama">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Dosya Yükle</label>
+                    <input type="file" name="ImageFile" class="file-upload-default">
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control file-upload-info"  disabled placeholder="Resim Yükle">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Dosya Seç</button>
+                        </span>
+                        @if (ViewBag.hata != null)
+                        {
+                        <span class="text-danger">@ViewBag.hata</span>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Stok</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="Stock" class="form-control" id="exampleInputEmail2" placeholder="Stok">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Fiyat</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="Price" class="form-control" id="exampleInputEmail2" placeholder="Fiyat">
+                        @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">İndirim</label>
+                    <div class="col-sm-9">
+                        <input type="number"  name="Discount" class="form-control" id="exampleInputEmail2" placeholder="İndirim">
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Kategori</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="CategoryID">
+                            <option disabled selected>Bir kategori seçin</option>
+                            @foreach (category item in ViewBag.cat)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                                
+                            }
+                            
+                        </select>
+                        @Html.ValidationMessageFor(x => x.CategoryID, "", new { @class = "text-danger" })
+                    </div>
+                    
+                </div>
+
+                <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                <a class="btn btn-light" href="/Admin/Product/Index">İptal</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section script{
+    <script src="/writer/assets/js/file-upload.js"></script>
+}

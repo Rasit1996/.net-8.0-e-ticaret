@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "FeatureAdd";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using EntityLayer.Entity
+@model List<string>
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@ViewBag.isim kategorisine özellik ekleyin</h4>
+
+            <form class="forms-sample" action="/Admin/category/FeatureAdd" method="post">
+                <div class="form-group row">
+                   
+                        <label class="col-sm-3 col-form-label">Özellikler</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="selUrun" name="name">
+                                <option disabled selected>Bir özellik seçin</option>
+                                @foreach (var item in Model)
+                                {
+
+                                    <option value="@item">@item</option>
+
+                                }
+
+
+                            </select>
+                        @if (ViewBag.hata != null)
+                        {
+                            <span class="text-danger">@ViewBag.hata</span>
+                            <br />
+                        }
+                        </div>
+                    
+                </div>
+                <input type="hidden" value="@ViewBag.id" name="ID" />
+                
+                <button type="submit" class="btn btn-primary">Ekle</button>
+                <a class="btn btn-inverse-dark btn-fw" href="/Admin/category/FeaturesView/@ViewBag.id">Geri</a>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+

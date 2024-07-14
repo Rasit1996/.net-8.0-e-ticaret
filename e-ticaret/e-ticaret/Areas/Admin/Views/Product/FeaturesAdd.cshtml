@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "FeaturesAdd";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@model FeaturesViewModel
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Kategori Ekle</h4>
+
+            <form class="forms-sample" action="/Admin/Product/FeaturesAdd" method="post">
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control" placeholder="Özellik adı">
+                        @Html.ValidationMessageFor(x => x.name, "", new { @class = "text-danger" })
+                       
+                    </div>
+                    <span asp-validation-for="name" class="text-danger"></span>
+
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Başlık</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" id="exampleInputEmail2" placeholder="Sayfada gösterilecek ad">
+                        @Html.ValidationMessageFor(x => x.title, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                <a class="btn btn-light" href="/Admin/Product/UrunFeature">İptal</a>
+            </form>
+        </div>
+    </div>
+</div>
+

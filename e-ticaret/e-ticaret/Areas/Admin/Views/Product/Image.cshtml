@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Image";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using EntityLayer.Entity
+@model urun
+@section head{
+    <style>
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 aspect ratio */
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+        }
+
+            .image-container img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Makes the image cover the container while maintaining its aspect ratio */
+                border-radius: 8px;
+            }
+    </style>
+}
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@Model.Name </h4>
+                <div class="row mt-3">
+                    @if (Model.urunImages.Count> 0)
+                    {
+                        @foreach (var item in Model.urunImages)
+                        {
+
+
+                            <div class="col-4">
+
+
+
+                                <a  href="#" onclick="sil(@item.ID)"> <i class="mdi mdi-close-box"></i></a>
+                                <div class="image-container">
+                                <img src="@item.ImageUrl" class="mb-2 mw-100 w-100 rounded" alt="image">
+
+                                </div>
+                            </div>
+
+
+                        }
+                    }
+                    else
+                    {
+                        <h2>Bu ürünün henüz bir resmi yok</h2>
+                    }
+                </div>
+               
+            </div>
+            <form class="form-samble" id="form">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Dosya Yükle</label>
+                <input type="file" name="ImageFile" class="file-upload-default" id="img">
+                <div class="col-sm-3">
+                    <input type="text" class="form-control file-upload-info" disabled placeholder="Resim Yükle">
+                    <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-gradient-primary" type="button">Dosya Seç</button>
+                    </span>
+                    @if (ViewBag.hata != null)
+                    {
+                        <span class="text-danger">@ViewBag.hata</span>
+                    }
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info">Onayla</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section script{
+    <script src="/writer/assets/js/file-upload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        
+  
+
+    <script>
+        
+
+        function sil(id) {
+           
+            Swal.fire({
+                title: "Silmek istediğinize emin misiniz?",
+                text: "Bu işlem geri alınamaz!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "İptal",
+                confirmButtonText: "Evet, sil!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type: "post",
+                        url: "/Admin/Product/Imagedelete/" +id,
+                        success: function () {
+
+                            Swal.fire({
+                                title: "Silindi!",
+                                text: "Dosyanız başarıyla silindi.",
+                                icon: "success",
+                                confirmButtonText: "Tamam"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            });
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Bir şeyler ters gitti!",
+                                confirmButtonText: "Tamam"
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).on("submit", "#form", function (event) {
+                
+                event.preventDefault();
+            var formData = new FormData();
+            var file = $("#img")[0].files[0];
+            if (!file) 
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Dosya Seçilmedi",
+                    text: "Lütfen bir dosya seçin!",
+                    confirmButtonText:"Tamam"
+                });
+                return;
+            }
+           
+            formData.append("ImageFile", file);
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Product/Image",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Başarılı bir şekilde eklendi",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((result) => {
+                        window.location.reload();
+                        })
+                       
+                       
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Bir şeyler ters gitti!",
+                            confirmButtonText: "Tamam"
+                            // footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+                }
+            });
+        });
+    </script>
+}

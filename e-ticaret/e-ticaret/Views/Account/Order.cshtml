@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using EntityLayer.Entity
+@model List<IGrouping<DateTime?,CartProductsViewModel>>
+@{
+	double CartTotal = 0;
+}
+<section class="bg0 p-t-62 p-b-60">
+    <div class="container">
+        <div class="row">
+            @await Html.PartialAsync("sideMenu")
+
+            <div class="col-md-12 col-lg-9 p-b-80">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Siparişlerim</h4>
+                        @if (Model.Count > 0)
+                        {
+							foreach (var group in Model)
+							{
+								<h3>Sipariş Tarihi: @group.Key.ToString()</h3>
+								<div class="wrap-table-shopping-cart">
+									<table class="table-shopping-cart">
+										<tr class="table_head">
+											<th class="column-1">Ürün</th>
+											<th class="column-2"></th>
+											<th class="column-3">Fiyatı</th>
+											<th class="columb-3">Özellikler</th>
+											<th class="column-4">Adet</th>
+											<th class="column-5">Toplam</th>
+										</tr>
+										@foreach (var item in group)
+										{
+											double total = item.Number * item.Price;
+											int sayac = 0;
+											<tr class="table_row">
+												<td class="column-1">
+													<div class="how-itemcart1">
+														<img src="@item.ImageUrl" alt="IMG">
+													</div>
+												</td>
+												<td class="column-2">@item.Name</td>
+												<td class="column-3">₺ @item.Price  </td>
+
+												<td class="column-3">
+													@foreach (var name in item.FeaturesName)
+													{
+														sayac++;
+														if (sayac < item.FeaturesName.Count())
+														{
+															<span>@name/ </span>
+														}
+														else
+														{
+															<span>@name </span>
+														}
+
+
+
+													}
+												</td>
+
+												<td class="column-4">
+													<div class="wrap-num-product flex-w m-l-auto m-r-0">
+														<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" data-id="@item.ID">
+															<i class="fs-16 zmdi zmdi-minus"></i>
+														</div>
+
+														<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="@item.Number">
+
+														<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" data-id="@item.ID">
+															<i class="fs-16 zmdi zmdi-plus"></i>
+														</div>
+													</div>
+												</td>
+												<td class="column-5">₺ @total</td>
+											</tr>
+											CartTotal += total;
+										}
+
+
+
+									</table>
+									<text class="mtext-110 cl2">Sipariş Tutarı: ₺@CartTotal</text>
+								</div>
+							}
+
+							<br />
+                            <br />
+                        }
+                        else
+                        {
+                            <h3>Hiç Sipariş Bulunmamaktatır!</h3>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

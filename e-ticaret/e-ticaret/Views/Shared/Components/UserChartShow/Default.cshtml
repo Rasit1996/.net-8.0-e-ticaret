@@ -1,0 +1,65 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using e_ticaret.Models
+@model List<CartProductsViewModel>
+@{
+	double total = 0;
+	int pience = 0;
+}
+
+@if (Model.Count > 0)
+{
+	@foreach (var item in Model)
+	{
+		total += (item.Number * item.Price);
+		pience += item.Number;
+
+		<ul class="header-cart-wrapitem w-full">
+
+			<li class="header-cart-item flex-w flex-t m-b-12">
+				<div class="header-cart-item-img ProductDelete" data-id="@item.ID">
+					<img src="@item.ImageUrl" alt="IMG">
+				</div>
+
+				<div class="header-cart-item-txt p-t-8">
+					<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+						@item.Name
+					</a>
+
+					<span class="header-cart-item-info">
+						@item.Number x ₺@item.Price
+					</span>
+				</div>
+			</li>
+
+
+
+
+		</ul>
+
+	}
+
+
+	<div class="w-full">
+		<div class="header-cart-total w-full p-tb-40">
+			Toplam: ₺@total
+
+		</div>
+
+		<div class="header-cart-buttons flex-w w-full">
+			<a href="/Cart/ShopingCart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+				Sepeti Gör
+			</a>
+
+			<a href="" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+				Alışverişi Tamamla
+			</a>
+		</div>
+	</div>
+}
+else
+{
+	<h3>Sepetinizde hiçbir ürün bulunmamaktadır!</h3>
+}

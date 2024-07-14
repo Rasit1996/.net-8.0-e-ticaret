@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["section"] = "class=header-v4";
+}
+@using EntityLayer.Entity
+@model List<urun>
+
+<section class="bg0 p-t-23 p-b-140">
+	<div class="container">
+		<div class="p-b-10">
+			<h3 class="ltext-103 cl5">
+				@ViewBag.kat kategorisine ait ürünler
+			</h3>
+		</div>
+
+		
+
+		<div class="row isotope-grid">
+			@if(Model.Count>0){
+			@foreach (var item in Model)
+			{
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+					<!-- Block2 -->
+				<div class="block2">
+					<div class="block2-pic hov-img0">
+						<img src="@item.urunImages.First().ImageUrl" alt="IMG-PRODUCT">
+
+						<a href="#"  data-id="@item.ID" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuickView">
+							Hızlı Bakış
+						</a>
+					</div>
+
+					<div class="block2-txt flex-w flex-t p-t-14">
+						<div class="block2-txt-child1 flex-col-l ">
+							<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								@item.Name
+							</a>
+
+							<span class="stext-105 cl3">
+									₺@item.Price
+
+							</span>
+						</div>
+
+						<div class="block2-txt-child2 flex-r p-t-3">
+							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+								<img class="icon-heart1 dis-block trans-04" src="/cozastore-master/images/icons/icon-heart-01.png" alt="ICON">
+								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/cozastore-master/images/icons/icon-heart-02.png" alt="ICON">
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+				}
+			}
+			else
+			{
+				<h2>
+					Üzgünüm! Teknik bir aksaklıktan ötürü ürünler görüntülenememektedir.
+					lütfen daha sonra tekrar deneyiniz.
+				</h2>
+			}
+
+			
+
+		</div>
+
+		<!-- Load more -->
+		<div class="flex-c-m flex-w w-full p-t-45">
+			<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+				Daha Fazla
+			</a>
+		</div>
+	</div>
+</section>
+<div id="component">
+
+	
+</div>
+@section script{
+	<script>
+		$(".QuickView").click(function () {
+			var data = $(this).data("id");
+			
+			
+			$.ajax({
+				type: "post",
+				url: "/Category/QuickView/"+data,							
+				success: function (veri) {
+					
+					$("#component").html(veri);
+					loadDymanicContent()
+					
+					
+				},
+				error: function (xhr, status, error) {
+					
+					console.error("Bir hata oluştu: " + error);
+					console.error("Hata Detayları: " + xhr.responseText);
+				},
+				complete:function(){
+					setTimeout(function () { $("#show-modal").addClass(" show-modal1"); }, 25)
+				}
+				
+			});
+			
+		});
+	</script>
+		<script>
+		$(document).on("click", ".js-addcart-detail", function () {
+			var val = parseInt($("#num-product").val());
+
+			var notifyElement = $("#js-show-number");
+			var cartNumber = parseInt(notifyElement.data("notify"));
+			cartNumber += val;
+
+			notifyElement.data("notify", cartNumber);
+			notifyElement.attr("data-notify", cartNumber);
+
+			var id = $(this).data("id");
+
+			$.ajax({
+				type: "get",
+				url: "/Cart/CartShow",
+				data: { id: id, Number: val },
+				success: function (data) {
+					$("#js-panel-cart").html(data);
+				},
+				error: function () {
+					alert("hata");
+				}
+			});
+		});
+
+		$(document).on("click","#container, #hide-modal", function () {
+				
+				$(".animsition-loading-1").remove();
+			});
+		</script>
+	<script>
+		
+			
+		
+	</script>
+	@* <script>
+		$(document).on("click", ".js-mmmm", function () {
+			var element = $("#show-modal");
+			element.removeClass();
+			element.addClass("wrap-modal1 js-modal1 p-t-60 p-b-20");
+			
+		});
+	</script> *@
+	<script>
+		function loadDymanicContent() {
+			// $('#script2').find('script').remove();
+			// $("#script").find("script").remove();
+			// $.getScript("/cozastore-master/vendor/jquery/jquery-3.2.1.min.js")
+			// $.getScript("/cozastore-master/vendor/animsition/js/animsition.min.js")
+			// $.getScript("/cozastore-master/vendor/slick/slick.min.js")
+			// var newscript = $("<script>", {
+			// 	src: "/cozastore-master/vendor/jquery/jquery-3.2.1.min.js"
+			// });
+
+			// $("#script2").append(newscript);
+
+
+			// var newscript = $("<script>", {
+			// 	src: "/cozastore-master/vendor/animsition/js/animsition.min.js"
+			// });
+
+			// $("#script2").append(newscript);
+
+			// var newscript = $("<script>", {
+			// 	src: "/cozastore-master/vendor/slick/slick.min.js"
+			// });
+
+			// $("#script").append(newscript.prop('outerHTML')
+
+			$.ajax({
+				type: "get",
+				url:"/Category/script",
+				
+				success: function (data) {
+					var $data = $(data);
+					// Hedef sayfanın script etiketlerini bul
+					var scripts = $data.filter('script');
+					// Her bir script etiketini head içine ekle
+					$("#script").find("script").remove();
+					scripts.each(function () {
+						$('#script').append($(this).prop('outerHTML'));
+					});
+					// $.getScript("/cozastore-master/vendor/jquery/jquery-3.2.1.min.js")
+					// $.getScript("/cozastore-master/vendor/animsition/js/animsition.min.js")
+					// $.getScript("/cozastore-master/vendor/bootstrap/js/popper.js")
+					// $.getScript("/cozastore-master/vendor/bootstrap/js/bootstrap.min.js")
+					// $.getScript("/cozastore-master/vendor/select2/select2.min.js")
+					// $.getScript("/cozastore-master/vendor/daterangepicker/moment.min.js")
+					// $.getScript("/cozastore-master/vendor/daterangepicker/daterangepicker.js")
+					// $.getScript('/cozastore-master/vendor/slick/slick.min.js');
+					// $.getScript("/cozastore-master/js/slick-custom.js")
+					
+					// $.getScript("/cozastore-master/vendor/parallax100/parallax100.js")
+					// $.getScript("/cozastore-master/vendor/MagnificPopup/jquery.magnific-popup.min.js")
+					// $.getScript("/cozastore-master/vendor/isotope/isotope.pkgd.min.js")
+					// $.getScript("/cozastore-master/vendor/sweetalert/sweetalert.min.js")
+					// $.getScript("/cozastore-master/vendor/perfect-scrollbar/perfect-scrollbar.min.js")
+					// $.getScript("/cozastore-master/js/main.js")
+					
+				},
+				error: function () {
+					alert("hata");
+				}
+			})
+			
+		}
+	</script>
+}

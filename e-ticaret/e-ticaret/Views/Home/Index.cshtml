@@ -1,0 +1,142 @@
+﻿
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["section"] = "class=";
+	
+}
+<div id="section">
+	@await Html.PartialAsync("section")
+</div>
+
+@await Component.InvokeAsync("HomeCategory")
+@await Component.InvokeAsync("HomeProduct")
+
+@section script {
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+	<script>
+		$(".js-models-show").click(function () {
+			var id = $(this).data("id");
+			
+			$.ajax({
+				type: "post",
+				url: "/Category/QuickView/" + id,
+				success: function (data) {
+					$("#script").find("script").remove();
+
+					$.ajax({
+						type: "GET",
+						url: "/Home/section",
+						success: function (data) {
+							$("#section").html(data);
+						},
+						error: function () {
+							alert("hata3");
+						}
+					});
+					
+						$("#component").html(data);
+
+
+						DynamicContentLoad();
+					
+				},
+				error: function () {
+					alert("hata2")
+				},
+				complete: function () {
+					setTimeout(function () { $("#show-modal").addClass(" show-modal1"); }, 25)
+					
+				}
+			});
+		});
+
+		
+
+		$(document).on("click", ".js-addcart-detail", function (event) {
+			
+			event.preventDefault();
+
+			$(".swal-modal .swal-text").text("ürünü sepete eklendi!");
+			$(".swal-button-container")
+				.html("<button class='swal-button swal-button--confirm'>Tamam</button>");
+
+			
+			
+
+		});
+
+		$(document).on("click", ".swal-button-container", function () {
+			
+			$(".swal-overlay").attr("class", "swal-overlay");
+		})
+	</script>
+	<script>
+		
+		function DynamicContentLoad() {
+
+			$.ajax({
+				type: "get",
+				url: "/Category/script",
+				success: function (data) {
+					var $data = $(data);
+
+					var scripts = $data.filter("script");
+					
+
+					scripts.each(function () {
+						$("#script").append($(this).prop("outerHTML"));
+					});
+				}
+			});
+		}
+
+		
+	</script>
+	
+	<script>
+
+		$(document).on("click", ".js-addcart-detail", function () {
+			var val =parseInt($("#num-product").val());
+
+			var notifyElement = $("#js-show-number");
+			var cartNumber =parseInt(notifyElement.data("notify"));
+			cartNumber += val;
+		
+			notifyElement.data("notify", cartNumber);
+			notifyElement.attr("data-notify", cartNumber);
+
+			var id = $(this).data("id");
+			
+			var values = $(".js-select2 option:selected").map(function () {
+				return $(this).val();
+			}).get();
+
+			var jsonValue =JSON.stringify(values);
+
+			$.ajax({
+				type: "get",
+				url: "/Cart/CartShow",
+				data: {id:id,Number:val,featuresID:jsonValue},
+				success: function (data) {
+					$("#js-panel-cart").html(data);
+				},
+				error: function () {
+					alert("hataadd");
+				}
+			});
+		});
+
+		
+
+		
+
+		$(document).on("click", "#container, #hide-modal", function () {
+
+			$(".animsition-loading-1").remove();
+		});
+	</script>
+}
+
+

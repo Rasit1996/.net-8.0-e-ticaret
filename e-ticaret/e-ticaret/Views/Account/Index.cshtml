@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["section"] = "class=";
+}
+<section class="bg0 p-t-62 p-b-60">
+    <div class="container">
+        <div class="row">
+@await Html.PartialAsync("sideMenu")
+
+        </div>
+    </div>
+</section>

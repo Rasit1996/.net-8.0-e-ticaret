@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@model List<CartProductsViewModel>
+@{
+	double CartTotal = 0;
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+			<h4 class="card-title">Siparişi veren: @Model.First().Usurname</h4>
+            <p class="card-description">
+               @Model.First().Sellby  
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th> Ürün </th>
+                        <th>  </th>
+                        <th> Adet </th>
+                        <th> Fiyat </th>
+                        <th> Özellikler </th>
+						<th>Ürün Toplamı</th>
+                    </tr>
+                </thead>
+                <tbody>
+					@foreach (var item in Model)
+					{
+						double total = item.Price * item.Number;
+						int sayac = 0;
+						<tr>
+							<td class="py-1">
+								<img src="@item.ImageUrl" alt="image" />
+							</td>
+							<td>@item.Name </td>
+							
+							<td>@item.Number </td>
+							<td>₺@item.Price </td>
+							<td>
+							@foreach (var name in item.FeaturesName)
+							{
+								sayac++;
+								if (sayac < item.FeaturesName.Count())
+								{
+									<span>@name/ </span>
+								}
+								else
+								{
+									<span>@name </span>
+								}
+
+
+
+							}
+								</td>
+							<td>₺@total </td>
+						</tr>
+					}
+                    
+                 
+                </tbody>
+            </table>
+			<label>Toplam Tutar: </label>
+			<text class="mtext-110 cl2">₺@Model.Sum(x => x.Number * x.Price)</text>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        
+        <li class="nav-item">
+            <a class="nav-link" href="/Admin/Profile/">
+                <span class="menu-title">Profilim</span>
+                <i class="mdi mdi-account menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Mesajlar</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-message"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li> <a class="nav-link" href="/Admin/Message/ReceivedMessage"><i class="mdi mdi-message-plus"></i> Gelen Kutusu</a></li>
+                    <li> <a class="nav-link" href="/Admin/Message/SentMessage"><i class="mdi mdi-message-reply-text"></i> Giden Kutusu</a></li>
+                </ul>
+            </div>
+        </li>
+    
+        <li class="nav-item">
+            <a class="nav-link" href="/Admin/category/">
+                <span class="menu-title">Kategoriler</span>
+                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#product" aria-expanded="false" aria-controls="product">
+                <span class="menu-title">Ürünler</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-briefcase-check menu-icon"></i>
+            </a>
+            <div class="collapse" id="product">
+                <ul class="nav flex-column sub-menu">
+                    <li> <a class="nav-link" href="/Admin/Product/Index"><i class="mdi mdi-package-variant-closed"></i> Ürün Listesi</a></li>
+                    <li> <a class="nav-link" href="/Admin/Product/UrunFeature"><i class="mdi mdi-format-list-bulleted"></i> Ürün Özellikleri</a></li>
+                   
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Admin/Order/">
+                <span class="menu-title">Siparişler</span>
+                <i class="mdi mdi-cart menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span class="menu-title">Ayarlar</span>
+                <i class="mdi mdi-settings menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Admin/Login/Signout">
+                <span class="menu-title">Çıkış Yap</span>
+                <i class="mdi mdi-close-circle menu-icon"></i>
+            </a>
+        </li>
+        
+        
+    </ul>
+</nav>

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "UrunFeatureAdd";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+
+@using EntityLayer.Entity
+@model List<IGrouping<string,CategoryFeature>>
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ürünlere Özellik Ekleyin</h4>
+             @if(Model.Count>0){
+            <form class="forms-sample" action="/Admin/Product/UrunFeatureAdd" method="post">
+                <div class="form-group row">
+                   
+                     @foreach (var group in Model)
+                            {
+                    <label class="col-sm-3 col-form-label">@group.Key</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="selUrun" name="model">
+                            <option disabled selected>Bir özellik seçin</option>
+                            @foreach (var item in group)
+                            {
+
+                                <option value="@item.FeatureID">@item.Feature.property</option>
+
+                            }
+
+
+                        </select>
+
+                    </div>
+                    }
+                </div>
+                <input type="hidden" value="@ViewBag.id" name="ID" />
+                @if (ViewBag.hata !=null)
+                {
+                    <span class="text-danger">@ViewBag.hata</span>
+                    <br />
+                }
+                <button type="submit" class="btn btn-primary">Ekle</button>
+                <a class="btn btn-inverse-dark btn-fw" href="/Admin/Product/Features/@ViewBag.id">Geri</a>
+                </form>
+            }
+            else
+            {
+                <h2>Bu ürün için mevcut tüm özellikler ekli!</h2>
+                <a class="btn btn-inverse-dark btn-fw" href="/Admin/Product/Features/@ViewBag.id">Geri</a>
+            }
+        </div>
+
+    </div>
+
+</div>
+@section script {
+    <script>
+        $(document).on("change", "#selUrun", function () {
+            var id = $(this).val();
+            $.ajax({
+                type: "GET",
+                url: "Admin/Product/FeatureName/" + id,
+                dataType"HTML",
+                success: function (data) {
+                    if (data.error == true) {
+
+                    }
+                    $("#selFea").html(data);
+                },
+                error: function () {
+
+                }
+            })
+        })
+    </script>
+}
+
+
+

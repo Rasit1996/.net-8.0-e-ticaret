@@ -1,0 +1,44 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using e_ticaret.Models
+@model MessageViewModel
+<form id="formsub">
+	<h4 class="mtext-105 cl2 txt-center p-b-30">
+		Bize Mesaj Gönder
+	</h4>
+	<div class="form-group">
+	<div class="bor8 m-b-20 how-pos4-parent">
+		<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" asp-for="Email" placeholder="Email adresiniz">
+		<img class="how-pos4 pointer-none" src="/cozastore-master/images/icons/icon-email.png" alt="ICON">
+		
+	</div>
+	<span asp-validation-for="Email" class="text-danger md"></span>
+	</div>
+	<div class="form-group">
+		<div class="bor8 m-b-20 how-pos4-parent">
+			<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" asp-for="Subject" placeholder="Konu">
+			<img class="how-pos4 pointer-none" src="/cozastore-master/images/icons/icon-heart-01.png" alt="ICON">
+
+		</div>
+		<span asp-validation-for="Email" class="text-danger md"></span>
+	</div>
+	<div class="form-group">
+	<div class="bor8 m-b-30">
+		<textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" asp-for="Content" placeholder="Nasıl yardımcı olabiliriz?"></textarea>
+		
+	</div>
+		<span asp-validation-for="Content" class="text-danger md"></span>
+		@if (ViewBag.hata != null)
+		{
+			<span class="text-danger">@ViewBag.hata</span>
+			
+		}
+	</div>
+	
+	<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+		Gönder
+	</button>
+</form>
+

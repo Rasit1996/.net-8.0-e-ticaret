@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "MessageDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using EntityLayer.Entity
+@model Message
+
+}
+<section class="bg0 p-t-62 p-b-60">
+    <div class="container">
+        <div class="row">
+            @await Html.PartialAsync("sideMenu")
+
+            <div class="col-md-12 col-lg-9 p-b-80">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Admin kişisinin mesajı</h4>
+
+
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Kişi</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" value="Admin" class="form-control" disabled>
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Konu</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="description" class="form-control" value="@Model.Subject" id="exampleInputEmail2" disabled>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">İçerik</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="description" class="form-control" value="@Model.Content" id="exampleInputEmail2" disabled>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Tarih</label>
+                            <div class="col-sm-9">
+                                <input type="datetime" name="description" class="form-control" value='@Model.SendBy.ToString("dd-MM-yyy HH:mm:ss")' id="exampleInputEmail2" disabled>
+                            </div>
+
+                        </div>
+
+
+                        <a class="btn btn-light" href="/Account/Message">İptal</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

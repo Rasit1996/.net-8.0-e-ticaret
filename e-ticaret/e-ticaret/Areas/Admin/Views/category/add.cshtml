@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "add";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@model CategoryViewModel
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Kategori Ekle</h4>
+           
+            <form class="forms-sample" action="/Admin/category/add" method="post" enctype="multipart/form-data" >
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control"  placeholder="Kategori adı">
+                        @Html.ValidationMessageFor(x => x.name, "", new { @class = "text-danger" })
+                    </div>
+                    <span asp-validation-for="name" class="text-danger"></span>
+                    
+                   
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Dosya Yükle</label>
+                    <input type="file" name="ImageFile" class="file-upload-default">
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control file-upload-info" disabled placeholder="Resim Yükle">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Dosya Seç</button>
+                        </span>
+                        @if (ViewBag.hata != null)
+                        {
+                            <span class="text-danger">@ViewBag.hata</span>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Açıklama</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="description" class="form-control" id="exampleInputEmail2" placeholder="Açıklama">
+                    </div>
+                   
+                </div>
+             
+                <button type="submit" class="btn btn-gradient-primary mr-2">Ekle</button>
+                <a class="btn btn-light" href="/Admin/category/Index">İptal</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section script {
+    <script src="/writer/assets/js/file-upload.js"></script>
+}

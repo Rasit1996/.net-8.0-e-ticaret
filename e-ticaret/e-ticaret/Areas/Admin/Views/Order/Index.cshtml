@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@model List<IGrouping<DateTime?,CartProductsViewModel>>
+@{
+    int count = 0;
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Siparişler Tablosu</h4>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+
+                        <th> # </th>
+
+
+                        <th>İsim </th>
+                        
+                        <th>Adet</th>
+                        <th>Fiyat</th>
+                        <th>Sipariş Tarihi</th>
+                        <th>Detaylar</th>
+                       
+                       
+                       
+                      
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        count += 1;
+                        <tr>
+
+                            <td>@count</td>
+
+
+                            <td>@item.First().Usurname</td>                          
+                            <td>@item.Sum(x=>x.Number)</td>
+                            <td>@item.Sum(x=>x.Price*x.Number)</td>
+                            <td>@item.Key</td>
+                           
+                            
+                            <td><a href="/Admin/Order/Detail/@item.First().SalesID" class="btn btn-warning">Detayları Gör</a></td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+            <br />
+           
+        </div>
+    </div>
+</div>
+

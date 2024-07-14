@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "FeatureAdd";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using EntityLayer.Entity
+@model List<IGrouping<string,CategoryFeature>>
+@{
+    int count = 0;
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@ViewBag.isim kategori için özellik tablosu</h4>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+
+                        <th> # </th>
+
+                        
+                        <th>İsim </th>
+                       
+                        <th>Alt özellik sayısı</th>
+                       
+                        <th>Sil</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        count += 1;
+                        <tr>
+
+                            <td>@count</td>
+
+                           
+                            <td>@item.Key</td>
+                            <td>@item.Count(x=>x.Feature.state==true&x.Feature.property!=null)</td>
+                           
+                            
+                            <td><a href="#" class="btn btn-danger sil" onclick="'@item.Key'">Sil</a></td>
+                            
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+            <br />
+            <a class="btn btn-info" href="/Admin/category/FeatureAdd">Özellik  Ekle</a>
+            <a class="btn btn-inverse-dark btn-fw" href="/Admin/category/">Geri</a>
+
+        </div>
+    </div>
+</div>
+

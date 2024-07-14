@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Admin_Layout.cshtml";
+}
+@using e_ticaret.Models
+@model UserUpdateViewModel
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Admin profil bilgileri</h4>
+            @if(ViewBag.state==null){
+            <form class="forms-sample"   >
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" value="@Model.name" class="form-control" disabled >
+                        @Html.ValidationMessageFor(x=>x.name,"",new {@class="text-danger"})
+                      
+                    </div>
+
+
+
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Soyad</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="surname" value="@Model.surname" class="form-control" disabled  >
+                        @Html.ValidationMessageFor(x => x.surname, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" name="email" class="form-control" value="@Model.email" id="exampleInputEmail2" disabled>
+                        @Html.ValidationMessageFor(x => x.email, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                
+                
+                
+
+                <button type="submit" class="btn btn-gradient-primary mr-2">Kaydet</button>
+                <a class="btn btn-light" id="update" >Güncelle</a>
+                </form>
+            }
+            else
+            {
+                <form class="forms-sample" action="/Admin/Profile/Index" method="post">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ad</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="name" value="@Model.name" class="form-control" >
+                            @Html.ValidationMessageFor(x => x.name, "", new { @class = "text-danger" })
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Soyad</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="surname" value="@Model.surname" class="form-control" >
+                            @Html.ValidationMessageFor(x => x.surname, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="email" class="form-control" value="@Model.email" id="exampleInputEmail2" >
+                            @Html.ValidationMessageFor(x => x.email, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+
+
+
+                    <button type="submit" class="btn btn-gradient-primary mr-2">Kaydet</button>
+                    <a class="btn btn-light" >Güncelle</a>
+                </form>
+            }
+        </div>
+
+    </div>
+
+</div>
+
+@section script{
+    <script>
+        $("#update").click(function () {
+            $('input[disabled]').prop("disabled", false);
+            $(".forms-sample").attr("action", "/Admin/Profile/Index");
+            $(".forms-sample").attr("method", "post");
+        });
+    </script>
+}
+
